@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3982342c87dfe4a4bb6edbaa6c7fd516
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 136459
+  packageName: The Dungeon Game Kit
+  packageVersion: 4.5
+  assetPath: Assets/DungeonKit/Animation/UI/Pause/PauseMenu.controller
+  uploadId: 488240
