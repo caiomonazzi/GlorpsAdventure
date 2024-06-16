@@ -1,0 +1,684 @@
+fileFormatVersion: 2
+guid: dd10b6ab32f3765478c667bf066dae9e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8683438518598700860
+    second: GlorpSpriteSheet_0
+  - first:
+      213: 3826622266908055386
+    second: GlorpSpriteSheet_1
+  - first:
+      213: 1587548783701466450
+    second: GlorpSpriteSheet_2
+  - first:
+      213: -2531581052240790995
+    second: GlorpSpriteSheet_3
+  - first:
+      213: 9031214050466340364
+    second: GlorpSpriteSheet_4
+  - first:
+      213: -6562789409635885813
+    second: GlorpSpriteSheet_5
+  - first:
+      213: -6007428435307949276
+    second: GlorpSpriteSheet_6
+  - first:
+      213: -8421497269179900408
+    second: GlorpSpriteSheet_7
+  - first:
+      213: 3972474635101458958
+    second: GlorpSpriteSheet_8
+  - first:
+      213: -152783147211149150
+    second: GlorpSpriteSheet_9
+  - first:
+      213: -1000768838014710218
+    second: GlorpSpriteSheet_10
+  - first:
+      213: -836325027774575593
+    second: GlorpSpriteSheet_11
+  - first:
+      213: -8100166254974882394
+    second: GlorpSpriteSheet_12
+  - first:
+      213: 5718553648501980955
+    second: GlorpSpriteSheet_13
+  - first:
+      213: -1639068138935178211
+    second: GlorpSpriteSheet_14
+  - first:
+      213: 726124507825003044
+    second: GlorpSpriteSheet_15
+  - first:
+      213: 8415545361648650509
+    second: GlorpSpriteSheet_16
+  - first:
+      213: 4705007251068839675
+    second: GlorpSpriteSheet_17
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: tvOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 320
+        width: 60
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3f050a6355c18870800000000000000
+      internalID: 8683438518598700860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 320
+        width: 130
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 65, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5797ac6da4ea1530800000000000000
+      internalID: 3826622266908055386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 320
+        width: 55
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25d1124253b180610800000000000000
+      internalID: 1587548783701466450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_3
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 320
+        width: 130
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2af31522740edcd0800000000000000
+      internalID: -2531581052240790995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 64
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0e10985451555d70800000000000000
+      internalID: 9031214050466340364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 185
+        width: 45
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0d15f69dc94ce4a0800000000000000
+      internalID: -6562789409635885813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_6
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 185
+        width: 45
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42393e3baa351aca0800000000000000
+      internalID: -6007428435307949276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_7
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 185
+        width: 45
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80e1c994ad4d02b80800000000000000
+      internalID: -8421497269179900408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 185
+        width: 50
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e02d87032a0112730800000000000000
+      internalID: 3972474635101458958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 270
+        y: 165
+        width: 30
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a030de798431edf0800000000000000
+      internalID: -152783147211149150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 165
+        width: 40
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63e4adb4b0e8c12f0800000000000000
+      internalID: -1000768838014710218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 60
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71c4aba71d6c464f0800000000000000
+      internalID: -836325027774575593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 80
+        width: 60
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6adad9625bd669f80800000000000000
+      internalID: -8100166254974882394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 80
+        width: 60
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1f79ffbe326c5f40800000000000000
+      internalID: 5718553648501980955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 80
+        width: 60
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1cab18363cd049e0800000000000000
+      internalID: -1639068138935178211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 80
+        width: 55
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42a5d978466b31a00800000000000000
+      internalID: 726124507825003044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 80
+        width: 55
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0901404be50ac470800000000000000
+      internalID: 8415545361648650509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_17
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 65
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf66899aa2b8b4140800000000000000
+      internalID: 4705007251068839675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_18
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 240
+        width: 66
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a74f84e1e22060e4b8db557dd21270bb
+      internalID: 1478182934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 241
+        width: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9eb2de08b1a4d3488553ae561cc7593
+      internalID: -2113404598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_20
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 240
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb79557f397de0f448be06ac6833c511
+      internalID: 1720465950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_21
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 239
+        width: 65
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b4b7e394a6ac4c4590ad7190ede622a
+      internalID: -921635536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_22
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 240
+        width: 64
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72297eb64ddfee84f9fafe6f32317586
+      internalID: -1550024465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 08cc5a1226188d4449bb41f7d8f2327c
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      GlorpSpriteSheet_0: 8683438518598700860
+      GlorpSpriteSheet_1: 3826622266908055386
+      GlorpSpriteSheet_10: -1000768838014710218
+      GlorpSpriteSheet_11: -836325027774575593
+      GlorpSpriteSheet_12: -8100166254974882394
+      GlorpSpriteSheet_13: 5718553648501980955
+      GlorpSpriteSheet_14: -1639068138935178211
+      GlorpSpriteSheet_15: 726124507825003044
+      GlorpSpriteSheet_16: 8415545361648650509
+      GlorpSpriteSheet_17: 4705007251068839675
+      GlorpSpriteSheet_18: 1478182934
+      GlorpSpriteSheet_19: -2113404598
+      GlorpSpriteSheet_2: 1587548783701466450
+      GlorpSpriteSheet_20: 1720465950
+      GlorpSpriteSheet_21: -921635536
+      GlorpSpriteSheet_22: -1550024465
+      GlorpSpriteSheet_3: -2531581052240790995
+      GlorpSpriteSheet_4: 9031214050466340364
+      GlorpSpriteSheet_5: -6562789409635885813
+      GlorpSpriteSheet_6: -6007428435307949276
+      GlorpSpriteSheet_7: -8421497269179900408
+      GlorpSpriteSheet_8: 3972474635101458958
+      GlorpSpriteSheet_9: -152783147211149150
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

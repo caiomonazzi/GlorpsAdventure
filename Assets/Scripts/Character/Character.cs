@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.TextCore.Text;
 
 #region Rigibody2DParameters struct:
 [System.Serializable]
@@ -22,31 +23,38 @@ public struct Rigidbody2DParameters
 }
 #endregion
 
+[System.Serializable]
+public enum CharacterState
+{
+    Idle,
+    Walking,
+    Running,
+    Jumping,
+    Crouching,
+    Attacking,
+    Shooting,
+    Climbing
+}
 
 public class Character : MonoBehaviour
 {
-    
     #region Variables
-
     [HideInInspector] private WeaponController weaponController;
     [HideInInspector] public AttackController attackController;
 
-    // Components
-    PlayerStats playerStats;
+    private PlayerStats playerStats;
+    [SerializeField] public CharacterState currentState;
     private Animator animator;
     public GameObject playerSprite;
     public SpriteRenderer playerSpriteRenderer;
 
     [Header("Movement")]
-    private bool isClimbing = false;
-    private bool isOnRope = false;
-    public float climbSpeed = 3f;
-    private float verticalMove = 0f;
-
     [SerializeField] public float runSpeed = 20f;
     [SerializeField] public float walkSpeed = 10f;
-    public float originalRunSpeed;
-    public float originalWalkSpeed;
+    public float climbSpeed = 3f;
+    private float verticalMove = 0f;
+    [HideInInspector] public float originalRunSpeed;
+    [HideInInspector] public float originalWalkSpeed;
 
     [SerializeField] private float staminaTime = 100f;
     [SerializeField] private bool doubleJump = true;
@@ -56,44 +64,44 @@ public class Character : MonoBehaviour
     private int maxJumps = 1;
     private float horizontalMove = 0f;
 
-    public bool isFacingRight = true;
+    [HideInInspector] public bool isFacingRight = true;
+    private int currentDirection = 0;
+    public bool isWalking = false;
     public bool isRunning = false;
     public bool isJumping = false;
     public bool isCrouching = false;
+    public bool isClimbing = false;
     public bool isAttacking = false;
-    public bool IsSwinging = false;
-
-    private int currentDirection = 0;
+    public bool isShooting = false;
 
     private float lastRunKeyPressTime = 0f;
     private bool pressedRunFirstTime = false;
     private float staminaRunningTime = 0f;
     private const float doubleKeyPressDelay = .25f;
 
-    [SerializeField] private float jumpForce = 350f; // Amount of force added when the player jumps.
-    [Range(0, 1)][SerializeField] private float crouchSpeed = .36f; // Amount of maxSpeed applied to crouching movement. 1 = 100%
-    [Range(0, .3f)][SerializeField] private float movementSmoothing = .1f; // How much to smooth out the movement
+    [SerializeField] private float jumpForce = 350f;
+    [Range(0, 1)][SerializeField] private float crouchSpeed = .36f;
+    [Range(0, .3f)][SerializeField] private float movementSmoothing = .1f;
 
-    [SerializeField] private bool airControl = false; // Whether or not a player can steer while jumping;
-    [SerializeField] private LayerMask whatIsGround; // A mask determining what is ground to the character
-    [SerializeField] private Transform groundCheck; // A position marking where to check if the player is grounded.
+    [SerializeField] private bool airControl = false;
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private Transform groundCheck;
 
-    [SerializeField] private Collider2D crouchDisableCollider; // A collider that will be disabled when crouching
+    [SerializeField] private Collider2D crouchDisableCollider;
 
     private Rigidbody2DParameters originalRigidbody2DParameters;
     private Rigidbody2D m_Rigidbody2D;
 
     private float delayGroundCheck = 0.25f;
-    private const float groundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool grounded; // Whether or not the player is grounded.
+    private const float groundedRadius = .2f;
+    private bool grounded;
 
     private Vector3 velocity = Vector3.zero;
     private float timeBeforeGroundCheck = 0f;
 
+    private Color originalColor;
 
-    private Color originalColor; // To store the original color of the sprite 
     [SerializeField] private Color invincibleColor = Color.yellow;
-
     #endregion
 
 
@@ -107,18 +115,22 @@ public class Character : MonoBehaviour
     #region Unity Methods
     private void Start()
     {
+        InitializeComponents();
+        SaveManager.Save(); // Save level state
+    }
+
+    private void InitializeComponents()
+    {
         playerStats = PlayerStats.Instance;
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-
         PlayerStats.Instance.audioSource = GetComponent<AudioSource>();
-
-
         originalColor = playerSpriteRenderer.color; // Store the original color of the sprite
-
-        SaveManager.Save(); // Save level state
-
-
+        StoreRigidbody2DParameters();
+        originalRunSpeed = runSpeed;
+        originalWalkSpeed = walkSpeed;
+        if (OnLandEvent == null) OnLandEvent = new UnityEvent();
+        if (doubleJump) maxJumps = 2;
     }
 
     private void Awake()
@@ -142,57 +154,32 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        Inputs(); // Check inputs
+        HandleInputs();
         if (!grounded)
         {
             timeBeforeGroundCheck -= Time.deltaTime;
         }
-        // Check for ladder climbing input
+
         if (isClimbing)
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                verticalMove = 1f;
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                verticalMove = -1f;
-            }
-            else
-            {
-                verticalMove = 0f;
-            }
+            HandleClimbingInput();
         }
 
+        UpdateState();
     }
 
     private void FixedUpdate()
     {
-        // If attacking or dead, do not move.
         if (attackController.isAttacking || playerStats.isDead)
         {
             Movement(0);
             return;
         }
-        else
-        {
-            Movement(horizontalMove * Time.fixedDeltaTime);
-        }
+
+        Movement(horizontalMove * Time.fixedDeltaTime);
         if (timeBeforeGroundCheck > 0f) return;
 
-        bool wasGrounded = grounded;
-        grounded = false;
-
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                grounded = true;
-                if (!wasGrounded)
-                    OnLandEvent.Invoke();
-            }
-        }
+        CheckGroundedStatus();
 
         if (isClimbing)
         {
@@ -208,14 +195,136 @@ public class Character : MonoBehaviour
 
     #region Input Handlers
     // Inputs method
-    void Inputs()
+    void HandleInputs()
     {
-        if (InputManager.Pause) // If player press pause button
+        if (InputManager.Pause) 
         {
-            UIManager.Instance.Pause(); // Show UI pause screen
+            UIManager.Instance.Pause(); 
         }
 
         horizontalMove = Input.GetAxisRaw("Horizontal");
+
+        HandleRunning(); 
+        HandleWalking(); 
+        HandleFlip(horizontalMove);
+
+        // if pause disable and game
+        if (!UIManager.Instance.isPause && GameManager.Instance.isGame)
+        {
+            if (InputManager.Attack && Time.time >= attackController.nextMeleeTime) // If player press attack button
+            {
+                Attack();
+                attackController.nextMeleeTime = Time.time + attackController.meleeCooldown;
+            }
+
+            if (!isClimbing)
+            {
+                if (InputManager.Jump) // If player press jump button
+                {
+                    Jump(true);
+                }
+
+                if (InputManager.Crouch) // If player press crouch button
+                {
+
+                    Crouch(true);
+                }
+                else
+                {
+                    Crouch(false);
+                }
+            }
+        }
+    }
+
+    public void HandleAttackInput()
+    {
+        StartCoroutine(HandleAttackRoutine());
+    }
+
+    private IEnumerator HandleAttackRoutine()
+    {
+        // Set attacking state and change color to red
+        isAttacking = true;
+        playerSpriteRenderer.color = Color.red;
+        attackController.isAttacking = true;
+
+        // Handle ranged attack if the weapon is available and cooldown is complete
+        if (weaponController.hasWeapon && weaponController.currentWeapon != null && weaponController.shotCooldown <= 0f)
+        {
+            HandleRangedAttack();
+            weaponController.shotCooldown = weaponController.currentWeapon.attackSpeed;
+        }
+        else
+        {
+            // Perform melee attack
+            attackController.Hit();
+        }
+
+        // Wait for a short duration for visual feedback
+        yield return new WaitForSeconds(0.1f);
+
+        // Revert the color back to the original color and reset attacking state
+        playerSpriteRenderer.color = originalColor;
+        isAttacking = false;
+        attackController.isAttacking = false;
+
+        // Ensure melee attack cooldown is respected
+        yield return new WaitForSeconds(attackController.meleeCooldown);
+        animator.SetBool("isAttacking", false);
+    }
+
+
+    public void HandleRangedAttack()
+    {
+        if (weaponController.currentWeapon == null)
+        {
+            Debug.Log("Currently without weapon");
+            return;
+        }
+
+        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, weaponController.currentWeapon.range, attackController.whatIsEnemy);
+        if (enemiesInRange.Length > 0)
+        {
+            Collider2D nearestEnemy = weaponController.GetNearestEnemyInFront(enemiesInRange);
+            if (nearestEnemy != null)
+            {
+                weaponController.PerformRangedAttack(nearestEnemy.transform.position);
+            }
+        }
+    }
+
+    private void HandleWalking()
+    {
+        // Determine if the player is walking or idle based on horizontal input
+        if (!isRunning)
+        {
+            isWalking = Mathf.Abs(horizontalMove) > 0.1f;
+        }
+
+        // Set isWalking and isRunning based on speed
+        float speed = isRunning ? runSpeed : walkSpeed;
+        horizontalMove = horizontalMove * speed;
+
+        if (Mathf.Abs(horizontalMove) > 0 && Mathf.Abs(speed) < runSpeed)
+        {
+            animator.SetBool("isWalking", true);
+            animator.SetBool("isRunning", false);
+        }
+        else if (Mathf.Abs(horizontalMove) >= runSpeed)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetBool("isRunning", false);
+        }
+    }
+
+    private void HandleRunning()
+    {
         if (InputManager.MoveLeft || InputManager.MoveRight)
         {
             if (pressedRunFirstTime)
@@ -229,7 +338,6 @@ public class Character : MonoBehaviour
                     {
                         isRunning = true;
                         staminaRunningTime = Time.time;
-
                         animator.SetBool("isRunning", true);
                     }
                 }
@@ -263,57 +371,21 @@ public class Character : MonoBehaviour
             isRunning = false;
             animator.SetBool("isRunning", false);
         }
+    }
 
-        // Move the char at the selected speed
-        float speed = isRunning ? runSpeed : walkSpeed;
-        horizontalMove = horizontalMove * speed;
-
-        // Set isWalking and isRunning based on speed
-        if (Mathf.Abs(horizontalMove) > 0 && Mathf.Abs(speed) < runSpeed)
+    private void HandleClimbingInput()
+    {
+        if (Input.GetKey(KeyCode.W))
         {
-            animator.SetBool("isWalking", true);
-            animator.SetBool("isRunning", false);
+            verticalMove = 1f;
         }
-        else if (Mathf.Abs(horizontalMove) >= runSpeed)
+        else if (Input.GetKey(KeyCode.S))
         {
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", true);
+            verticalMove = -1f;
         }
         else
         {
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isRunning", false);
-        }
-
-        // Check and change attackpoint direction if needed
-        HandleFlip(horizontalMove);
-
-        // if pause disable and game
-        if (!UIManager.Instance.isPause && GameManager.Instance.isGame)
-        {
-            if (InputManager.Attack && Time.time >= attackController.nextMeleeTime) // If player press attack button
-            {
-                Attack();
-                attackController.nextMeleeTime = Time.time + attackController.meleeCooldown;
-            }
-
-
-            if (!isClimbing)
-            {
-                if (InputManager.Jump) // If player press jump button
-                {
-                    Jump(true);
-                }
-
-                if (InputManager.Crouch) // If player press crouch button
-                {
-                    Crouch(true);
-                }
-                else
-                {
-                    Crouch(false);
-                }
-            }
+            verticalMove = 0f;
         }
     }
 
@@ -428,15 +500,9 @@ public class Character : MonoBehaviour
         isCrouching = c;
         animator.SetBool("isCrouching", isCrouching);
 
-        if (isCrouching)
+        if (crouchDisableCollider != null)
         {
-            if (crouchDisableCollider != null)
-                crouchDisableCollider.enabled = false;
-        }
-        else
-        {
-            if (crouchDisableCollider != null)
-                crouchDisableCollider.enabled = true;
+            crouchDisableCollider.enabled = !isCrouching;
         }
     }
 
@@ -460,17 +526,9 @@ public class Character : MonoBehaviour
         StartCoroutine(ResetAttackState());
     }
 
-    public void TakeDamage(int damageAmount = 1)
-    {
-        if (!playerStats.isInvincible)
-        {
-            playerStats.TakingDamage(damageAmount);
-        }
-    }
-
     private IEnumerator ResetAttackState()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(attackController.meleeCooldown);
         animator.SetBool("isAttacking", false);
     }
 
@@ -495,11 +553,6 @@ public class Character : MonoBehaviour
             attackController.attackPoint.localScale = attackScale;
         }
 
-    }
-
-    public Rigidbody2DParameters GetOriginalRigidbody2DParameters()
-    {
-        return originalRigidbody2DParameters;
     }
 
     public void OnLanding()
@@ -579,16 +632,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void PlayParticleSystem(ParticleSystem particleSystem)
-    {
-        if (particleSystem != null)
-        {
-            particleSystem.Stop();
-            particleSystem.Play();
-        }
-    }
-
-
     private void Climb(float move)
     {
         Vector3 targetVelocity = new Vector2(m_Rigidbody2D.velocity.x, move * climbSpeed);
@@ -606,6 +649,69 @@ public class Character : MonoBehaviour
         playerSpriteRenderer.color = originalColor; // Revert to original color
         playerStats.isInvincible = false;
         // Optionally stop the invincibility effect here
+    }
+
+    private void UpdateState()
+    {
+        if (attackController.isAttacking)
+        {
+            ChangeState(CharacterState.Attacking);
+        }
+        else if (isClimbing)
+        {
+            ChangeState(CharacterState.Climbing);
+        }
+        else if (isJumping)
+        {
+            ChangeState(CharacterState.Jumping);
+        }
+        else if (isShooting)
+        {
+            ChangeState(CharacterState.Shooting);
+        }
+        else if (isRunning)
+        {
+            ChangeState(CharacterState.Running);
+        }
+        else if (isWalking)
+        {
+            ChangeState(CharacterState.Walking);
+        }
+        else if (isCrouching)
+        {
+            ChangeState(CharacterState.Crouching);
+        }
+        else
+        {
+            ChangeState(CharacterState.Idle);
+        }
+    }
+
+    private void ChangeState(CharacterState newState)
+    {
+        if (currentState != newState)
+        {
+            Debug.Log($"State changed from {currentState} to {newState}");
+            currentState = newState;
+        }
+    }
+
+
+    private void CheckGroundedStatus()
+    {
+        bool wasGrounded = grounded;
+        grounded = false;
+
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, groundedRadius, whatIsGround);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject != gameObject)
+            {
+                grounded = true;
+                if (!wasGrounded)
+                    OnLandEvent.Invoke();
+            }
+        }
     }
     #endregion
 }

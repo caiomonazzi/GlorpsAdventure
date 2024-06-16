@@ -19,4 +19,4 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5943262186935353010, guid: 864047518b080fe45b1dd6dbb35de237, type: 3}
   weaponSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   projectileForce: 5
-  shots: 25
+  shots: 3

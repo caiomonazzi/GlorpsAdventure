@@ -8,15 +8,12 @@ public class WeaponController : MonoBehaviour
     private Character character;
     [SerializeField] private Transform shootingPoint; // Point from which to attack/shoot
     public int shotsRemaining; // Track remaining shots
-
     private SpriteRenderer shootingPointSpriteRenderer;
     private AttackController attackController;
-
     public Weapon currentWeapon;
     public bool hasWeapon = false;
-    private float shotCooldown = 0f;
+    public float shotCooldown = 0f;
     private Quaternion originalRotation;
-
     private Animator animator; // Reference to the Animator
     #endregion
 
@@ -24,6 +21,7 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         character = FindFirstObjectByType<Character>();
+        attackController = character.GetComponent<AttackController>();
 
         if (character == null)
         {
@@ -31,63 +29,47 @@ public class WeaponController : MonoBehaviour
         }
         if (character != null)
         {
-            animator = character.GetComponentInChildren<Animator>(); // Get the Animator from the Character
+            animator = character.GetComponentInChildren<Animator>();
             if (animator == null)
             {
                 Debug.LogError("Animator not found in Character or its children.");
             }
         }
 
-        attackController = GetComponent<AttackController>();
-
         if (attackController == null)
         {
             Debug.LogError("AttackController component not found on the GameObject.");
         }
 
-        shootingPointSpriteRenderer = shootingPoint.GetComponent<SpriteRenderer>();
         if (shootingPoint != null)
         {
             shootingPointSpriteRenderer = shootingPoint.GetComponent<SpriteRenderer>();
             originalRotation = shootingPoint.localRotation;
         }
-
         else
         {
             Debug.LogError("Shooting Point is not assigned in the WeaponController.");
         }
-
     }
 
     private void Update()
     {
-        // Ensure necessary components are available before proceeding
         if (character == null || attackController == null || shootingPoint == null)
         {
             Debug.LogWarning("WeaponController dependencies are not fully initialized.");
             return;
         }
 
-
-        if (hasWeapon || currentWeapon != null)
+        shotCooldown -= Time.deltaTime;
+        if (hasWeapon && currentWeapon != null)
         {
-            HandleAttackInput();
-            shotCooldown -= Time.deltaTime;
-
-            if (hasWeapon && currentWeapon != null)
+            Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, currentWeapon.range, attackController.whatIsEnemy);
+            if (enemiesInRange.Length > 0)
             {
-                Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, currentWeapon.range, attackController.whatIsEnemy);
-                if (enemiesInRange.Length > 0)
+                Collider2D nearestEnemy = GetNearestEnemyInFront(enemiesInRange);
+                if (nearestEnemy != null)
                 {
-                    Collider2D nearestEnemy = GetNearestEnemyInFront(enemiesInRange);
-                    if (nearestEnemy != null)
-                    {
-                        AimAtTarget(nearestEnemy.transform.position);
-                    }
-                    else
-                    {
-                        ResetAiming();
-                    }
+                    AimAtTarget(nearestEnemy.transform.position);
                 }
                 else
                 {
@@ -103,83 +85,33 @@ public class WeaponController : MonoBehaviour
     #endregion
 
     #region Private Methods:
-    private void HandleAttackInput()
-    {
-        if (character == null)
-        {
-            Debug.LogWarning("Character or InputManager is not initialized.");
-            return;
-        }
 
-        if (InputManager.Attack && !character.isJumping)
-        {
-            PerformMeleeAttack();
-        }
-
-        if (InputManager.RangedAttack && !character.isJumping && shotCooldown <= 0f)
-        {
-
-                HandleRangedAttack();
-            if (hasWeapon && currentWeapon != null)
-            {
-                shotCooldown = currentWeapon.attackSpeed;
-            }
-            else
-            {
-                Debug.Log("Currently without weapon");
-                hasWeapon = false;
-                currentWeapon = null; // Ensure currentWeapon is null
-                PerformMeleeAttack();
-            }
-        }
-    }
 
     private void EquipWeapon(Weapon weapon)
     {
         currentWeapon = weapon;
         if (weapon == null)
         {
-            // Reset to melee attack settings
             shootingPointSpriteRenderer.sprite = null;
             hasWeapon = false;
             PlayerStats.Instance.SetHasWeapon(false);
         }
         else
         {
-            // Equip the ranged weapon
             shootingPointSpriteRenderer.sprite = weapon.weaponSprite;
             hasWeapon = true;
             PlayerStats.Instance.SetHasWeapon(true);
-            shotsRemaining = weapon.shots; // Initialize remaining shots
+            shotsRemaining = weapon.shots;
         }
 
         if (UIManager.Instance != null)
         {
-            UIManager.Instance.UpdateUI(); // Update the UI to show the new weapon
+            UIManager.Instance.UpdateUI();
         }
 
         if (animator != null)
         {
-            animator.SetBool("hasWeapon", hasWeapon); // Update the animator
-        }
-    }
-
-    private void HandleRangedAttack()
-    {
-        if (currentWeapon == null)
-        {
-            Debug.Log("Currently without weapon");
-            return;
-        }
-
-        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, currentWeapon.range, attackController.whatIsEnemy);
-        if (enemiesInRange.Length > 0)
-        {
-            Collider2D nearestEnemy = GetNearestEnemyInFront(enemiesInRange);
-            if (nearestEnemy != null)
-            {
-                PerformRangedAttack(nearestEnemy.transform.position);
-            }
+            animator.SetBool("hasWeapon", hasWeapon);
         }
     }
 
@@ -209,7 +141,7 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private Collider2D GetNearestEnemyInFront(Collider2D[] enemies)
+    public Collider2D GetNearestEnemyInFront(Collider2D[] enemies)
     {
         Collider2D nearestEnemy = null;
         float nearestDistance = float.MaxValue;
@@ -234,37 +166,20 @@ public class WeaponController : MonoBehaviour
         return nearestEnemy;
     }
 
-    private void PerformMeleeAttack()
+    public void PerformRangedAttack(Vector2 enemyPosition)
     {
-        if (attackController != null)
-        {
-            attackController.Hit();  // Calls the appropriate attack logic in AttackController
-            Debug.Log("Performing Melee Attack");
-        }
-        else
-        {
-            Debug.LogWarning("AttackController is not initialized.");
-        }
-    }
-
-    private void PerformRangedAttack(Vector2 enemyPosition)
-    {
-        if (hasWeapon && currentWeapon != null)
+        if (hasWeapon && currentWeapon != null && shotCooldown <= 0f)
         {
             if (shotsRemaining > 0)
             {
-                shotsRemaining--; // Consume a shot
+                shotsRemaining--;
                 Vector2 direction = (enemyPosition - (Vector2)shootingPoint.position).normalized;
                 Shoot(direction, enemyPosition);
 
                 if (shotsRemaining <= 0)
                 {
-                    RemoveWeapon(); // Remove weapon when out of shots
+                    RemoveWeapon();
                 }
-            }
-            else
-            {
-                PerformMeleeAttack();
             }
         }
     }
@@ -290,6 +205,8 @@ public class WeaponController : MonoBehaviour
                 animator.SetBool("isShooting", true); // Update the animator
             }
 
+            character.isShooting = true; // Set character's isShooting to true
+
             // Reset isShooting after a short delay to allow for animation
             StartCoroutine(ResetShootingState());
 
@@ -299,12 +216,15 @@ public class WeaponController : MonoBehaviour
 
     private IEnumerator ResetShootingState()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(shotCooldown);
         if (animator != null)
         {
-            animator.SetBool("isShooting", false); // Reset the animator
+            animator.SetBool("isShooting", false);
         }
+
+        character.isShooting = false;
     }
+
 
     #endregion
 
@@ -313,13 +233,10 @@ public class WeaponController : MonoBehaviour
     {
         if (hasWeapon && currentWeapon != null && shotsRemaining > 0)
         {
-            HandleRangedAttack();
-        }
-        else
-        {
-            PerformMeleeAttack();
+            character.HandleRangedAttack();
         }
     }
+
     public void CollectWeapon(Weapon newWeapon)
     {
         EquipWeapon(newWeapon);
@@ -339,12 +256,12 @@ public class WeaponController : MonoBehaviour
 
         if (UIManager.Instance != null)
         {
-            UIManager.Instance.UpdateUI(); // Update the UI to show no weapon
+            UIManager.Instance.UpdateUI();
         }
 
         if (animator != null)
         {
-            animator.SetBool("hasWeapon", hasWeapon); // Update the animator
+            animator.SetBool("hasWeapon", hasWeapon);
         }
 
         Debug.Log("Weapon removed after all shots are used.");

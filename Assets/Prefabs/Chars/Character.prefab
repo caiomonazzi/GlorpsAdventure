@@ -259,26 +259,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 0}
-  attackParticleSystem: {fileID: 6154388686933704289}
-  hurtParticleSystem: {fileID: 0}
-  deathParticleSystem: {fileID: 0}
-  landingParticleSystem: {fileID: 0}
+  currentState: 0
   playerSprite: {fileID: 7716618477110844994}
   playerSpriteRenderer: {fileID: 8007709987068678835}
+  runSpeed: 25
+  walkSpeed: 12
   climbSpeed: 32
-  runSpeed: 8
-  walkSpeed: 5
   originalRunSpeed: 0
   originalWalkSpeed: 0
   staminaTime: 3
   doubleJump: 1
-  gearHolder: {fileID: 0}
   isFacingRight: 1
+  isWalking: 0
   isRunning: 0
   isJumping: 0
   isCrouching: 0
+  isClimbing: 0
   isAttacking: 0
-  IsSwinging: 0
+  isShooting: 0
   jumpForce: 250
   crouchSpeed: 0.33
   movementSmoothing: 0.1
@@ -487,6 +485,7 @@ MonoBehaviour:
   shotsRemaining: 0
   currentWeapon: {fileID: 0}
   hasWeapon: 0
+  shotCooldown: 0
 --- !u!1 &1975730589640250
 GameObject:
   m_ObjectHideFlags: 0
@@ -5544,7 +5543,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.006, y: -0.117, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.31714287, z: 0.21428572}
+  m_LocalScale: {x: 2, y: 2.1142857, z: 1.4285715}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4055532924313396}
@@ -5590,7 +5589,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: -6891541253924508337, guid: d29950ae8fe011e4886f912b56dc9155, type: 3}
+  m_Sprite: {fileID: 8683438518598700860, guid: dd10b6ab32f3765478c667bf066dae9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
