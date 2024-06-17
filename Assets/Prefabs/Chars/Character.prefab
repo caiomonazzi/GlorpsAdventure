@@ -195,11 +195,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1.15
+  m_Mass: 1.35
   m_LinearDrag: 1
   m_AngularDrag: 5
   m_GravityScale: 1.55
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f50f08a89422a134ba33c8c095a25c26, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -220,7 +220,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 4df8869db969d874d8aa39483de771aa, type: 2}
+  m_Material: {fileID: 6200000, guid: 71916823e1469814caf7f016a375c355, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -244,8 +244,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.010832369, y: -0.34110552}
-  m_Radius: 0.4727803
+  m_Offset: {x: -0.016677678, y: -0.43170857}
+  m_Radius: 0.54584724
 --- !u!114 &114208317006013580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,15 +259,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 0}
+  fallDamageMultiplier: 5
   currentState: 0
   playerSprite: {fileID: 7716618477110844994}
   playerSpriteRenderer: {fileID: 8007709987068678835}
-  runSpeed: 25
-  walkSpeed: 12
-  climbSpeed: 32
+  runSpeed: 12
+  walkSpeed: 7
+  climbSpeed: 33
   originalRunSpeed: 0
   originalWalkSpeed: 0
-  staminaTime: 3
+  staminaTime: 0.7
   doubleJump: 1
   isFacingRight: 1
   isWalking: 0
@@ -277,16 +278,16 @@ MonoBehaviour:
   isClimbing: 0
   isAttacking: 0
   isShooting: 0
+  isFalling: 0
   jumpForce: 250
-  crouchSpeed: 0.33
-  movementSmoothing: 0.1
+  crouchSpeed: 0.7
+  movementSmoothing: 0
   airControl: 1
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
   groundCheck: {fileID: 4851920919256534}
   crouchDisableCollider: {fileID: 1410824644440586120}
-  invincibleColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   OnLandEvent:
     m_PersistentCalls:
       m_Calls:
@@ -337,7 +338,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 4df8869db969d874d8aa39483de771aa, type: 2}
+  m_Material: {fileID: 6200000, guid: 71916823e1469814caf7f016a375c355, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

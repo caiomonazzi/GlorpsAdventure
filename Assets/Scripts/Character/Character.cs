@@ -41,6 +41,9 @@ public class Character : MonoBehaviour
     #region Variables
     [HideInInspector] private WeaponController weaponController;
     [HideInInspector] public AttackController attackController;
+    [SerializeField] private float fallDamageMultiplier = 1.0f;
+    private float lastYPosition; // Track previous position for fall detection
+    private float highestYPosition; // Track the highest position during a jump or fall
 
     private PlayerStats playerStats;
     [SerializeField] public CharacterState currentState;
@@ -74,6 +77,8 @@ public class Character : MonoBehaviour
     public bool isAttacking = false;
     public bool isShooting = false;
 
+    public bool isFalling = false;
+
     private float lastRunKeyPressTime = 0f;
     private bool pressedRunFirstTime = false;
     private float staminaRunningTime = 0f;
@@ -101,7 +106,8 @@ public class Character : MonoBehaviour
 
     private Color originalColor;
 
-    [SerializeField] private Color invincibleColor = Color.yellow;
+    private Camera cam;
+
     #endregion
 
 
@@ -116,6 +122,8 @@ public class Character : MonoBehaviour
     private void Start()
     {
         InitializeComponents();
+        lastYPosition = transform.position.y; // Initialize last known Y position
+        highestYPosition = transform.position.y; // Initialize highest known Y position
         SaveManager.Save(); // Save level state
     }
 
@@ -166,10 +174,12 @@ public class Character : MonoBehaviour
         }
 
         UpdateState();
+        CheckForFallDamage();
     }
 
     private void FixedUpdate()
     {
+
         if (attackController.isAttacking || playerStats.isDead)
         {
             Movement(0);
@@ -189,6 +199,51 @@ public class Character : MonoBehaviour
         // Update animator with grounded state
         animator.SetBool("isJumping", !grounded);
         animator.SetBool("isCrouching", isCrouching);
+    }
+
+    private void CheckForFallDamage()
+    {
+        if (!grounded && m_Rigidbody2D.velocity.y < 0)
+        {
+            // Update the highest Y position reached during the fall
+            if (transform.position.y > highestYPosition)
+            {
+                highestYPosition = transform.position.y;
+            }
+
+            isFalling = true; // Character is falling
+        }
+        else if (grounded && isFalling)
+        {
+            // Calculate fall distance
+            float fallDistance = highestYPosition - transform.position.y;
+
+            // Example fall damage calculation
+            float fallDamage = (fallDistance - 3f) * fallDamageMultiplier; // Adjust 3f for minimum fall distance
+
+            // Ensure fall damage is positive and apply to health or whatever system you have
+            if (fallDamage > 0)
+            {
+                ApplyFallDamage(fallDamage);
+            }
+
+            // Reset highestYPosition and isFalling after landing
+            highestYPosition = transform.position.y;
+            isFalling = false;
+        }
+
+        lastYPosition = transform.position.y; // Update last known Y position
+    }
+
+    private void ApplyFallDamage(float damage)
+    {
+        int roundedDamage = Mathf.RoundToInt(damage); // Round float damage to nearest integer
+
+        // Apply damage logic here, e.g., reduce health
+        playerStats.TakingDamage(roundedDamage);
+
+        // Example: Debug log for now
+        Debug.Log("Applied fall damage: " + roundedDamage);
     }
     #endregion
 
@@ -564,10 +619,6 @@ public class Character : MonoBehaviour
         // Trigger landing particle system
     }
 
-    public void ActivateInvincibility(float duration)
-    {
-        StartCoroutine(InvincibilityCoroutine(duration));
-    }
 
     public void StartClimbing()
     {
@@ -638,18 +689,6 @@ public class Character : MonoBehaviour
         m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, movementSmoothing);
     }
 
-    private IEnumerator InvincibilityCoroutine(float duration)
-    {
-        playerStats.isInvincible = true;
-        Color originalColor = playerSpriteRenderer.color;
-        playerSpriteRenderer.color = invincibleColor; // Change to invincible color
-
-        yield return new WaitForSeconds(duration);
-
-        playerSpriteRenderer.color = originalColor; // Revert to original color
-        playerStats.isInvincible = false;
-        // Optionally stop the invincibility effect here
-    }
 
     private void UpdateState()
     {
