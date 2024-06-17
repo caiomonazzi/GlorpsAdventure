@@ -11,15 +11,12 @@ public class AudioManager : MonoBehaviour
 
     [Header("AudioClips")] // List of sounds
     public AudioClip aiDamage;
+    public AudioClip aiShot;
     public AudioClip playerDamage;
     public AudioClip pickUpKey;
     public AudioClip pickUpItems;
-    public AudioClip pickUpGear;
-    public AudioClip pickUpCoin;
-    public AudioClip breakableTile;
 
     public AudioClip openDoor;
-    public AudioClip drinkBottle;
     public AudioClip music;
 
     // Singleton

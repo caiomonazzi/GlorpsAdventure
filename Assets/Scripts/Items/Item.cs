@@ -27,20 +27,11 @@ public class Item : MonoBehaviour
                 case ItemType.Key:
                     AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.pickUpKey, false); // play pickup key sound
                     break;
-                case ItemType.Coin:
-                    AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.pickUpCoin, false); // play pickup coin sound
-                    break;
                 case ItemType.Weapon:
-                    AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.pickUpItems, false); // play random pickup sfx
-                    break;
-                case ItemType.Gear:
                     AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.pickUpItems, false); // play random pickup sfx
                     break;
                 case ItemType.Potion:
                     AudioManager.Instance.Play(PlayerStats.Instance.audioSource, AudioManager.Instance.pickUpItems, false); // play random pickup sfx
-                    break;
-                case ItemType.PowerUp:
-                    // Add sound for power-up
                     break;
             }
 

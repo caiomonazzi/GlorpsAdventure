@@ -22,5 +22,6 @@ public class InteractionCanvas : MonoBehaviour
         {
             InteractionText.text = interaction; // Assign the text in the UI to our button from InputSettings
         }
+
     }
 }

@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-guid: 84c69597f35f1f64ea9ac5fe5b127f72
+guid: 402f8fdee1781b84fa669b9cfde09f22
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 11400000
+  mainObjectFileID: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 136459
-  packageName: The Dungeon Game Kit
-  packageVersion: 4.5
-  assetPath: Assets/DungeonKit/Animation/UI/MainMenu/SplashScreen.playable
-  uploadId: 488240

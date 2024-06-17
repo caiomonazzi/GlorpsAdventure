@@ -89,6 +89,7 @@ public class Turret : AICombat
         if (timeBetweenShots <= 0)
         {
             RangeAttack(projectilePrefab, target); // Spawn weapon
+            AudioManager.Instance.Play(audioSource, AudioManager.Instance.aiShot, false);
             timeBetweenShots = startTimeBetweenShots; // Reset time to start again
         }
         else

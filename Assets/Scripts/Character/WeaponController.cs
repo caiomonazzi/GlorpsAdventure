@@ -239,8 +239,25 @@ public class WeaponController : MonoBehaviour
 
     public void CollectWeapon(Weapon newWeapon)
     {
-        EquipWeapon(newWeapon);
+        if (newWeapon != null)
+        {
+            if (currentWeapon != null && newWeapon.weaponName == currentWeapon.weaponName)
+            {
+                // Add bullets to the current weapon
+                shotsRemaining += newWeapon.shots;
+                UIManager.Instance.UpdateUI(); // Update the UI to reflect the added bullets
+            }
+            else
+            {
+                EquipWeapon(newWeapon);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Trying to collect null weapon.");
+        }
     }
+
 
     public void RemoveWeapon()
     {

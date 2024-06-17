@@ -28,4 +28,5 @@ public class InteractionTrigger : MonoBehaviour
             canvas.gameObject.SetActive(false); // UI disable
         }
     }
+
 }
