@@ -6,13 +6,11 @@ public class LoadingSceneManager : MonoBehaviour
 {
     private void Start()
     {
-        LoadScene(); //Call load scene method whe LoadingScene is loaded
+        LoadScene();
     }
 
-    //Loading scene method
     void LoadScene()
     {
-        //Call static SceneManager to load scene
-        SceneManager.LoadScene(ScenesManager.Instance.sceneToLoad); //Get scene name from SceneManager.sceneToLoad
+        SceneManager.LoadScene(ScenesManager.Instance.sceneToLoad);
     }
 }

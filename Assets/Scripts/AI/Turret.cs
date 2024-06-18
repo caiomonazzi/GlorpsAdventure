@@ -73,9 +73,12 @@ public class Turret : AICombat
 
         Vector3 direction = (target.position - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        if (angle < 0) angle += 360f;
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
-        turretSprite.rotation = Quaternion.RotateTowards(turretSprite.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        turretSprite.rotation = Quaternion.Slerp(turretSprite.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
+
 
 
     private void AttackByRate()

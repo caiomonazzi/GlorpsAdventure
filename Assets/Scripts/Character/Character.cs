@@ -82,7 +82,7 @@ public class Character : MonoBehaviour
 
     private float lastRunKeyPressTime = 0f;
     private bool pressedRunFirstTime = false;
-    private float staminaRunningTime = 0f;
+    private float staminaRunningTime = 0.7f;
     private const float doubleKeyPressDelay = .25f;
 
     [SerializeField] private float jumpForce = 350f;
@@ -313,44 +313,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    public void HandleAttackInput()
-    {
-        StartCoroutine(HandleAttackRoutine());
-    }
-
-    private IEnumerator HandleAttackRoutine()
-    {
-        // Set attacking state and change color to red
-        isAttacking = true;
-        playerSpriteRenderer.color = Color.red;
-        attackController.isAttacking = true;
-
-        // Handle ranged attack if the weapon is available and cooldown is complete
-        if (weaponController.hasWeapon && weaponController.currentWeapon != null && weaponController.shotCooldown <= 0f)
-        {
-            HandleRangedAttack();
-            weaponController.shotCooldown = weaponController.currentWeapon.attackSpeed;
-        }
-        else
-        {
-            // Perform melee attack
-            attackController.Hit();
-        }
-
-        // Wait for a short duration for visual feedback
-        yield return new WaitForSeconds(0.1f);
-
-        // Revert the color back to the original color and reset attacking state
-        playerSpriteRenderer.color = originalColor;
-        isAttacking = false;
-        attackController.isAttacking = false;
-
-        // Ensure melee attack cooldown is respected
-        yield return new WaitForSeconds(attackController.meleeCooldown);
-        animator.SetBool("isAttacking", false);
-    }
-
-
     public void HandleRangedAttack()
     {
         if (weaponController.currentWeapon == null)
@@ -469,7 +431,6 @@ public class Character : MonoBehaviour
 
 
     #region Public Methods
-
     public void RestoreRigidbody2DParameters()
     {
         m_Rigidbody2D.bodyType = originalRigidbody2DParameters.bodyType;

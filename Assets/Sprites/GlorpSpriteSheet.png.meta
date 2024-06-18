@@ -185,13 +185,13 @@ TextureImporter:
       name: GlorpSpriteSheet_1
       rect:
         serializedVersion: 2
-        x: 65
+        x: 61
         y: 320
-        width: 130
+        width: 68
         height: 80
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 65, w: 0}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
@@ -397,10 +397,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 60
-        height: 155
+        width: 64
+        height: 79
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -460,7 +460,7 @@ TextureImporter:
         serializedVersion: 2
         x: 195
         y: 80
-        width: 60
+        width: 59
         height: 75
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -643,6 +643,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_23
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 321
+        width: 65
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e1e4dbcb05cc884a8e55c3b996d2302
+      internalID: -9432228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GlorpSpriteSheet_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 79
+        width: 60
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84349b32e487b484483bbe36c1511efe
+      internalID: 570827582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -670,6 +712,8 @@ TextureImporter:
       GlorpSpriteSheet_20: 1720465950
       GlorpSpriteSheet_21: -921635536
       GlorpSpriteSheet_22: -1550024465
+      GlorpSpriteSheet_23: -9432228
+      GlorpSpriteSheet_24: 570827582
       GlorpSpriteSheet_3: -2531581052240790995
       GlorpSpriteSheet_4: 9031214050466340364
       GlorpSpriteSheet_5: -6562789409635885813
