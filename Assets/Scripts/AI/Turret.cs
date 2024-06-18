@@ -45,7 +45,6 @@ public class Turret : AICombat
             }
         }
     }
-
     #endregion
 
     #region Private Methods:
@@ -66,11 +65,6 @@ public class Turret : AICombat
                 target = potentialTarget.transform;
             }
         }
-
-        if (target != null)
-        {
-           //  Debug.Log($"Target found at position: {target.position}");
-        }
     }
 
     private void RotateTowardsTarget()
@@ -79,10 +73,10 @@ public class Turret : AICombat
 
         Vector3 direction = (target.position - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        turretSprite.rotation = Quaternion.Slerp(turretSprite.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        // Debug.Log($"Turret is aiming at target position: {target.position}");
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+        turretSprite.rotation = Quaternion.RotateTowards(turretSprite.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
+
 
     private void AttackByRate()
     {

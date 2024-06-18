@@ -33,7 +33,8 @@ public enum CharacterState
     Crouching,
     Attacking,
     Shooting,
-    Climbing
+    Climbing,
+    Falling
 }
 
 public class Character : MonoBehaviour
@@ -44,6 +45,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float fallDamageMultiplier = 1.0f;
     private float lastYPosition; // Track previous position for fall detection
     private float highestYPosition; // Track the highest position during a jump or fall
+    private float fallStartTime; // Track the start time of the fall
 
     private PlayerStats playerStats;
     [SerializeField] public CharacterState currentState;
@@ -76,7 +78,6 @@ public class Character : MonoBehaviour
     public bool isClimbing = false;
     public bool isAttacking = false;
     public bool isShooting = false;
-
     public bool isFalling = false;
 
     private float lastRunKeyPressTime = 0f;
@@ -174,7 +175,6 @@ public class Character : MonoBehaviour
         }
 
         UpdateState();
-        CheckForFallDamage();
     }
 
     private void FixedUpdate()
@@ -190,6 +190,7 @@ public class Character : MonoBehaviour
         if (timeBeforeGroundCheck > 0f) return;
 
         CheckGroundedStatus();
+        CheckForFallDamage();
 
         if (isClimbing)
         {
@@ -203,7 +204,11 @@ public class Character : MonoBehaviour
 
     private void CheckForFallDamage()
     {
-        if (!grounded && m_Rigidbody2D.velocity.y < 0)
+        // Thresholds
+        float fallSpeedThreshold = -5f; // Speed at which fall damage starts
+        float minimumFallDistance = 3f; // Minimum distance for fall damage
+
+        if (!grounded && m_Rigidbody2D.velocity.y < fallSpeedThreshold)
         {
             // Update the highest Y position reached during the fall
             if (transform.position.y > highestYPosition)
@@ -211,25 +216,41 @@ public class Character : MonoBehaviour
                 highestYPosition = transform.position.y;
             }
 
-            isFalling = true; // Character is falling
+            if (!isClimbing && !isJumping)
+            {
+                if (!isFalling)
+                {
+                    isFalling = true; // Character is falling
+                    fallStartTime = Time.time; // Record the start time of the fall
+                    Debug.Log("Character started falling at time: " + fallStartTime);
+                }
+            }
         }
         else if (grounded && isFalling)
         {
             // Calculate fall distance
             float fallDistance = highestYPosition - transform.position.y;
+            Debug.Log("Fall Distance: " + fallDistance);
 
-            // Example fall damage calculation
-            float fallDamage = (fallDistance - 3f) * fallDamageMultiplier; // Adjust 3f for minimum fall distance
+            // Calculate fall duration
+            float fallDuration = Time.time - fallStartTime;
+            Debug.Log("Fall Duration: " + fallDuration);
 
-            // Ensure fall damage is positive and apply to health or whatever system you have
-            if (fallDamage > 0)
+            // Only apply fall damage if fall distance exceeds minimum threshold
+            if (fallDistance > minimumFallDistance)
             {
-                ApplyFallDamage(fallDamage);
+                // Apply fall damage based on duration and distance
+                float fallDamage = (fallDistance - minimumFallDistance) * fallDamageMultiplier;
+                if (fallDamage > 0)
+                {
+                    ApplyFallDamage(fallDamage);
+                }
             }
 
             // Reset highestYPosition and isFalling after landing
             highestYPosition = transform.position.y;
             isFalling = false;
+            Debug.Log("Character has landed");
         }
 
         lastYPosition = transform.position.y; // Update last known Y position
@@ -700,6 +721,10 @@ public class Character : MonoBehaviour
         {
             ChangeState(CharacterState.Climbing);
         }
+        else if (isFalling)
+        {
+            ChangeState(CharacterState.Falling);
+        }
         else if (isJumping)
         {
             ChangeState(CharacterState.Jumping);
@@ -730,8 +755,9 @@ public class Character : MonoBehaviour
     {
         if (currentState != newState)
         {
-            Debug.Log($"State changed from {currentState} to {newState}");
+            //Debug.Log($"State changed from {currentState} to {newState}");
             currentState = newState;
+            animator.SetInteger("State", (int)newState); // Update animator
         }
     }
 

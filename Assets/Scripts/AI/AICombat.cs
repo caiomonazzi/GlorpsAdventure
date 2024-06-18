@@ -54,13 +54,9 @@ public class AICombat : MonoBehaviour
     public virtual void MeleeAttack(GameObject target)
     {
         PlayerStats playerStats = PlayerStats.Instance;
-        if (playerStats != null && !playerStats.isInvincible)
+        if (playerStats != null)
         {
             playerStats.TakingDamage();
-        }
-        else
-        {
-            Debug.Log("Player is invincible, no damage dealt.");
         }
     }
     #endregion

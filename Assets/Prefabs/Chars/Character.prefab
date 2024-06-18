@@ -259,12 +259,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackController: {fileID: 0}
-  fallDamageMultiplier: 5
+  fallDamageMultiplier: 1
   currentState: 0
   playerSprite: {fileID: 7716618477110844994}
   playerSpriteRenderer: {fileID: 8007709987068678835}
-  runSpeed: 12
-  walkSpeed: 7
+  runSpeed: 15
+  walkSpeed: 10
   climbSpeed: 33
   originalRunSpeed: 0
   originalWalkSpeed: 0
@@ -279,7 +279,7 @@ MonoBehaviour:
   isAttacking: 0
   isShooting: 0
   isFalling: 0
-  jumpForce: 250
+  jumpForce: 225
   crouchSpeed: 0.7
   movementSmoothing: 0
   airControl: 1

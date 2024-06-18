@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4079059842654780}
   - component: {fileID: 114719863025381182}
-  - component: {fileID: 50753358637432804}
   - component: {fileID: 8355873615900452285}
   - component: {fileID: 9080821010375022156}
+  - component: {fileID: 50753358637432804}
   - component: {fileID: 6116130555009157088}
   m_Layer: 0
   m_Name: NextLevelDoor
@@ -52,33 +52,6 @@ MonoBehaviour:
   lockedSprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   openedSprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   lockedDoor: 0
---- !u!50 &50753358637432804
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260676928609164}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &8355873615900452285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +117,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &50753358637432804
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260676928609164}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!58 &6116130555009157088
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Variables")]
     public DoubleInt HP = new DoubleInt(3, 3);
+
     public Dictionary<int, bool> doorKeys = new Dictionary<int, bool>();
 
     [Header("Graphics")]
@@ -29,7 +30,7 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public Character character;
     [HideInInspector] public bool isDead = false;
     [HideInInspector] public bool isHurting = false;
-    public bool isInvincible = false;
+
     private Animator animator;
 
     [Header("Weapon Controller")]
@@ -122,13 +123,14 @@ public class PlayerStats : MonoBehaviour
     // Taking damage method
     public void TakingDamage(int damageAmount = 1) // Default damage amount to 1
     {
-        Debug.Log("TakingDamage called. isDamaged: " + isDamaged + ", character.isInvincible: " + (isInvincible));
-        if (!isDamaged && !isInvincible)  // if player isn't damaged and not invincible
+        Debug.Log("TakingDamage called. isDamaged: " + isDamaged + ", character.isInvincible: ");
+        if (!isDamaged)  // if player isn't damaged and not invincible
         {
             isDamaged = true; // block damage
             StartCoroutine(timeDamage()); // set timer to next damage
 
             HP.current -= damageAmount; // Apply the specified damage amount
+            Debug.Log("Damage applied: " + damageAmount + ". Current HP: " + HP.current);
 
             UIManager.Instance.UpdateUI(); // Update UI
             StartCoroutine(damageEffect.Damage(playerSprite)); // Damage effect
