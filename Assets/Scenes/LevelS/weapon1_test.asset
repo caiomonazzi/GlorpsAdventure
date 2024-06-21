@@ -15,8 +15,9 @@ MonoBehaviour:
   weaponName: Weapon1
   damage: 10
   attackSpeed: 1
-  range: 9
+  range: 10
   projectilePrefab: {fileID: 5943262186935353010, guid: 864047518b080fe45b1dd6dbb35de237, type: 3}
   weaponSprite: {fileID: -1000768838014710218, guid: dd10b6ab32f3765478c667bf066dae9e, type: 3}
   projectileForce: 5
-  shots: 3
+  shots: 25
+  remainingBullets: 0
